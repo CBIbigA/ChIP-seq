@@ -75,7 +75,7 @@ rule samtools_fixmate:
 	threads: config["general"]["threads"]
 	conda: "../envs/samtools.yaml"
 	shell:
-		"samtools fixmate -m -@ {threads}"
+		"samtools fixmate -m -@ {threads} "
 		"{input.bam} "
 		"{output}"
 
