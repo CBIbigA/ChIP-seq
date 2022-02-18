@@ -65,7 +65,7 @@ rule samtools_sortn:
 
 rule samtools_fixmate:
 	input:
-		bam=config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.sorted.bam"
+		bam=config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.nsorted.bam"
 	output:
 		temp(config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.fixmate.bam")
 	benchmark :
