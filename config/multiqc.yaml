@@ -1,0 +1,91 @@
+extra_fn_clean_exts:
+    - .gz
+    - .fastq
+    - .fq
+    - .bam
+    - .sam
+    - .sra
+    - _tophat
+    - _star_aligned
+    - _fastqc
+    - type: remove
+      pattern: '.sorted'
+    - type: remove
+      pattern: '.rmdups'
+    - type: remove
+      pattern: '.stats'
+    - type: regex
+      pattern: '^Sample_\d+'
+    - type: regex_keep
+      pattern: '[A-Z]{3}[1-9]{4}[A,B][1-9]'
+
+# Ignore these files / directories / paths when searching for logs
+fn_ignore_files:
+    - .DS_Store
+    - nohup.out
+fn_ignore_dirs:
+    - annoying_dirname
+
+# Overwrite module filename search patterns. See multiqc/utils/search_patterns.yaml
+# for the defaults. Remove a default by setting it to null.
+sp:
+    star:
+        fn: '*Log.final.out'
+    trimmomatic:
+        contents: 'Trimmomatic'
+
+
+# Specify a custom logo to add to reports (uncomment to use)
+custom_logo: #'LOGO-bigA-3101.jpb'        # '/path/to/logo.png'
+custom_logo_url: 'https://cbi-toulouse.fr/images/upload/1069-logo-biga-3101-jpg.jpg'     # 'https://www.example.com'
+custom_logo_title: 'CBI'   # 'Our Institute Name'
+subtitle: "Bioinfo bigA"            # Grey text below title
+intro_text: False          # Set to False to remove, or your own text
+
+# Add generic information to the top of reports
+report_header_info:
+    - Application Type: "ChIP-Seq"
+    - Provider: ''
+    - Contact E-mail: 'biga_service@groupes.renater.fr'
+
+
+# Overwrite the defaults of which table columns are visible by default
+table_columns_visible:
+    FastQC (rmdup):
+        percent_fails: True
+        total_sequences: False
+        avg_sequence_length: False
+    FastQC (RAW):
+        percent_fails: True
+        total_sequences: True
+        avg_sequence_length: True
+    Samtools Stats:
+        reads_mapped: False
+        reads_mapped_percent: False
+        raw_total_sequences: False
+
+top_modules:
+    - fastqc:
+        name: 'FastQC (bam)'
+        info: 'This section of the report shows FastQC results on aligned bam.'
+        path_filters:
+            - '*rmdups_fastqc.zip'
+    - fastqc:
+        name: 'FastQC (RAW)'
+        path_filters:
+            - '*raw_fastqc.zip'
+
+table_columns_placement:
+    FastQC (RAW):
+        total_sequences: 900
+        avg_sequence_length: 910
+        percent_duplicates: 920
+        percent_gc: 930
+        percent_fails: 940
+    FastQC (rmdup):
+        percent_duplicates: 950
+        percent_gc: 960
+        percent_fails: 970
+    Samtools Flagstat:
+        mapped_passed: 980
+

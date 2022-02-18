@@ -1,0 +1,18 @@
+configfile: "config/config.yaml"
+
+
+if config["samtools"]["rm_duplicates"]:
+	samtype="rmdups"
+else:
+	samtype="sorted"
+
+
+include:"rules/fastqc.smk"
+include:"rules/bwa.smk"
+include:"rules/samtools.smk"
+include:"rules/bamcoverage.smk"
+
+rule all:
+	input: 
+		expand(config["general"]["experiment_name"]+"/mapping/BIGWIG/{sample}_{samtype}.{normalization}.bw",sample=config["general"]["samples"],samtype=samtype,normalization=config["bamcoverage"]["normalization"]),
+		config["general"]["experiment_name"]+"/QC/MULTIQC/"+config["general"]["experiment_name"]+"_multiqc_report.html"
