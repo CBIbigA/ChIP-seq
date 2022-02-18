@@ -31,26 +31,11 @@ rule sam_to_bam:
 		"-o {output} "
 		"{input.sam}"
 
-rule samtools_sort:
-	input:
-		bam=config["general"]["experiment_name"]+"/mapping/bam/raw/{prefix}.bam"
-	output:
-		config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.sorted.bam"
-	benchmark :
-		config["general"]["experiment_name"]+"/benchmarks/samtools_sort/{prefix}.txt"
-	priority: 50
-	threads: config["general"]["threads"]
-	message: "##RUNNING : samtools sort {input.bam}"
-	conda: "../envs/samtools.yaml"
-	shell:
-		"samtools sort -@ {threads} "
-		"-o {output} "
-		"{input.bam}"
 
 
 rule samtools_sortn:
 	input:
-		bam=config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.sorted.bam"
+		bam=config["general"]["experiment_name"]+"/mapping/bam/raw/{prefix}.bam"
 	output:
 		temp(config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.nsorted.bam")
 	benchmark :
@@ -78,6 +63,23 @@ rule samtools_fixmate:
 		"samtools fixmate -m -@ {threads} "
 		"{input.bam} "
 		"{output}"
+
+rule samtools_sort:
+	input:
+		bam=config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.fixmate.bam"
+	output:
+		config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.sorted.bam"
+	benchmark :
+		config["general"]["experiment_name"]+"/benchmarks/samtools_sort/{prefix}.txt"
+	priority: 50
+	threads: config["general"]["threads"]
+	message: "##RUNNING : samtools sort {input.bam}"
+	conda: "../envs/samtools.yaml"
+	shell:
+		"samtools sort -@ {threads} "
+		"-o {output} "
+		"{input.bam}"
+
 
 rule samtools_markdups:
 	input:
