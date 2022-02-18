@@ -23,8 +23,9 @@ rule rename_fastqc_raw:
 		sample=expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}_raw_fastqc.zip",sample=config["general"]["samples"])
 	params:
 		dirraw = os.getcwd()+"/"+config["general"]["experiment_name"]+"/QC/RAW"
-	run:
-		shell("rename 's/_fastqc.zip/_raw_fastqc.zip/' {params.dirraw}/*_fastqc.zip")
+	conda : "../envs/fastqc.yaml"
+	shell:
+		"rename 's/_fastqc.zip/_raw_fastqc.zip/' {params.dirraw}/*_fastqc.zip"
 
 
 rule fastqc_bam:

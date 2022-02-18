@@ -11,7 +11,7 @@ genome:
   name: female.hg19
   ext: .fa
 bwa:
-  custom:
+  custom: ""
 samtools:
   rm_duplicates: true
   quality: 25

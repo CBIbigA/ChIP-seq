@@ -91,7 +91,7 @@ rule samtools_markdups:
 	threads: config["general"]["threads"]
 	conda: "../envs/samtools.yaml"
 	shell:
-		"samtools markdup -@ {threads} -r"
+		"samtools markdup -@ {threads} -r "
 		"{input.bam} "
 		"{output}"
 
