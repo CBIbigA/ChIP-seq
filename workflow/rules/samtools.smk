@@ -83,7 +83,7 @@ rule samtools_sort:
 
 rule samtools_markdups:
 	input:
-		bam=config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.fixmate.bam"
+		bam=config["general"]["experiment_name"]+"/mapping/bam/sorted/{prefix}.sorted.bam"
 	output:
 		config["general"]["experiment_name"]+"/mapping/bam/rmdups/{prefix}.rmdups.bam"
 	benchmark :
@@ -153,4 +153,6 @@ rule samtools_flagstat:
 	conda: "../envs/samtools.yaml"
 	shell:
 		"samtools flagstat {input.bam} > {output}"
+
+
 
