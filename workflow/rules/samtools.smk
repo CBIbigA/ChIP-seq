@@ -60,7 +60,7 @@ rule samtools_sortn:
 	conda: "../envs/samtools.yaml"
 	threads: config["general"]["threads"]
 	shell:
-		"samtools sort -@ {threads} -n -o {output}"
+		"samtools sort -@ {threads} -n -o {output} "
 		"{input.bam} "
 
 rule samtools_fixmate:
