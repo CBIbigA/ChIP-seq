@@ -5,6 +5,10 @@ general:
   samples:
     - file1
 raw_spec:
+  pairs_expr: "_[12]_sequence"
+  pairs_ext: 
+    - "_1_sequence"
+    - "_2_sequence"
   ext: .txt.gz
 genome:
   dir: raw/genome/

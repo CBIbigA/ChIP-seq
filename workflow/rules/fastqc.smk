@@ -1,15 +1,15 @@
 rule fastqc_raw:
 	input:
-		fastq=config["general"]["sample_dir"]+"/{prefix}"+config["raw_spec"]["ext"]
+		fastq=config["general"]["sample_dir"]+"/{prefix}{group}"+config["raw_spec"]["ext"]
 	output:
-		config["general"]["experiment_name"]+"/QC/RAW/{prefix}_fastqc.html"
+		config["general"]["experiment_name"]+"/QC/RAW/{prefix}{group}_fastqc.html"
 	params:
 		dir=config["general"]["experiment_name"]+"/QC/RAW/",
-		before=config["general"]["experiment_name"]+"/QC/RAW/{prefix}_fastqc.zip",
-		after=config["general"]["experiment_name"]+"/QC/RAW/{prefix}_raw_fastqc.zip"
+		before=config["general"]["experiment_name"]+"/QC/RAW/{prefix}{group}_fastqc.zip",
+		after=config["general"]["experiment_name"]+"/QC/RAW/{prefix}{group}_raw_fastqc.zip"
 	threads: config["general"]["threads"]
 	benchmark :
-		config["general"]["experiment_name"]+"/benchmarks/fastqc_raw/{prefix}.txt"
+		config["general"]["experiment_name"]+"/benchmarks/fastqc_raw/{prefix}{group}.txt"
 	priority: 100
 	conda: "../envs/fastqc.yaml"
 	message : "##RUNNING : fastqc for {input.fastq}"
@@ -18,9 +18,9 @@ rule fastqc_raw:
 
 rule rename_fastqc_raw:
 	input:
-		sample=expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}_fastqc.html",sample=config["general"]["samples"])
+		sample=expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}{group}_fastqc.html",sample=config["general"]["samples"],group=config["raw_spec"]["pairs_ext"])
 	output : 
-		sample=expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}_raw_fastqc.zip",sample=config["general"]["samples"])
+		sample=expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}{group}_raw_fastqc.zip",sample=config["general"]["samples"],group=config["raw_spec"]["pairs_ext"])
 	params:
 		dirraw = os.getcwd()+"/"+config["general"]["experiment_name"]+"/QC/RAW"
 	conda : "../envs/fastqc.yaml"
@@ -46,7 +46,7 @@ rule fastqc_bam:
 
 rule multi_qc:
 	input:
-		expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}_raw_fastqc.zip",sample=config["general"]["samples"]),
+		expand(config["general"]["experiment_name"]+"/QC/RAW/{sample}{group}_raw_fastqc.zip",sample=config["general"]["samples"],group=config["raw_spec"]["pairs_ext"]),
 		expand(config["general"]["experiment_name"]+"/QC/bam/{sample}.{samtype}_fastqc.html",samtype=samtype,sample=config["general"]["samples"]),
 		expand(config["general"]["experiment_name"]+"/QC/STATS/{type}/{sample}.{samtype}.{type}",samtype=samtype,type = ["stats","idxstats","flagstat"],sample=config["general"]["samples"])
 	output : 

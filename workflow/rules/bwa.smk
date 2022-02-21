@@ -11,9 +11,12 @@ rule bwa_index:
 	shell:
 		"bwa index -a {params.construction_algorithm} {input} 2> {log}"
 
+
+
 rule bwa_mem:
 	input:
-		fastq=config["general"]["sample_dir"]+"/{prefix}"+config["raw_spec"]["ext"],
+		fastq1=config["general"]["sample_dir"]+"/{prefix}"+config["raw_spec"]["pairs_ext"][0]+config["raw_spec"]["ext"],
+		fastq2=config["general"]["sample_dir"]+"/{prefix}"+config["raw_spec"]["pairs_ext"][1]+config["raw_spec"]["ext"],
 		genome=config["genome"]["dir"]+config["genome"]["name"]+config["genome"]["ext"]
 	output:
 		temp(config["general"]["experiment_name"]+"/mapping/sam/{prefix}.sam")
@@ -23,12 +26,12 @@ rule bwa_mem:
 	benchmark :
 		config["general"]["experiment_name"]+"/benchmarks/bwa_mem/{prefix}.txt"
 	priority: 50
-	message: "##RUNNING : bwa mem for {input.fastq}"
+	message: "##RUNNING : bwa mem for {input.fastq1} {input.fastq2}"
 	conda: "../envs/bwa_mem.yaml"
 	log:
 		"logs/bwa_mem/{prefix}.log"
 	shell:
 		"bwa mem {params.custom} "
 		"-t {threads} "
-		"{input.genome} {input.fastq} "
+		"{input.genome} {input.fastq1} {input.fastq2}"
 		"> {output} 2> {log}"
