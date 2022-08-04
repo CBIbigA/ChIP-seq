@@ -1,4 +1,4 @@
-configfile: "config/config.yaml"
+configfile: "config/config_single.yaml"
 
 
 if config["samtools"]["rm_duplicates"]:
