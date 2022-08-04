@@ -1,4 +1,4 @@
-configfile: "config/config.yaml"
+configfile: "config/config_paired.yaml"
 
 wildcard_constraints:
     group=config["raw_spec"]["pairs_expr"]
