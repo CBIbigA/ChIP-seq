@@ -1,0 +1,33 @@
+general:
+  experiment_name: results
+  threads: 12
+  sample_dir: raw
+  samples:
+    - HLNHCBGXC_ATAC_4_pool1_19s004481-1-1_Clouaire_lane1T98GG1minus
+    - HLNHCBGXC_ATAC_4_pool1_19s004481-1-1_Clouaire_lane1T98GG2minus
+    - HLNHCBGXC_ATAC_4_pool1_19s004481-1-1_Clouaire_lane1T98GG1pos
+    - HLNHCBGXC_ATAC_4_pool1_19s004481-1-1_Clouaire_lane1T98GG2pos
+raw_spec:
+  pairs_expr: "_[12]_sequence"
+  pairs_ext: 
+    - "_1_sequence"
+    - "_2_sequence"
+  ext: .txt.gz
+genome:
+  dir: raw/genome/
+  name: female.hg19
+  ext: .fa
+bwa:
+  custom: ""
+samtools:
+  rm_duplicates: true
+  quality: 25
+  custom: -F 2048
+bamcoverage:
+  normalization: 
+    - CPM
+  binsize: 1
+fastqc:
+  multi_qc_path: "config/multiqc.yaml"
+
+  

@@ -1,0 +1,24 @@
+general:
+  experiment_name: results
+  threads: 12
+  sample_dir: raw
+  samples:
+    - file1
+raw_spec:
+  ext: .txt.gz
+genome:
+  dir: raw/genome/
+  name: female.hg19
+  ext: .fa
+bwa:
+  custom: ""
+samtools:
+  rm_duplicates: true
+  quality: 25
+  custom: -F 2048
+bamcoverage:
+  normalization: 
+    - CPM
+  binsize: 1
+fastqc:
+  multi_qc_path: "config/multiqc.yaml"
