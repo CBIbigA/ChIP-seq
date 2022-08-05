@@ -58,7 +58,7 @@ rule multi_qc:
 		filename = config["general"]["experiment_name"]+"_multiqc_report.html"
 	priority: 50
 	message : "##RUNNING : MultiQC"
-	conda: "../envs/fastqc.yaml"
+	conda: "../envs/multiqc.yaml"
 	shell:
 		"export LC_ALL=C.UTF-8 && "
 		"export LANG=C.UTF-8 && "
