@@ -14,7 +14,8 @@ rule bwa_index:
 rule bwa_mem:
 	input:
 		fastq=config["general"]["sample_dir"]+"/{prefix}"+config["raw_spec"]["ext"],
-		genome=config["genome"]["dir"]+config["genome"]["name"]+config["genome"]["ext"]
+		genome=config["genome"]["dir"]+config["genome"]["name"]+config["genome"]["ext"],
+		rules.bwa_index.output
 	output:
 		temp(config["general"]["experiment_name"]+"/mapping/sam/{prefix}.sam")
 	params:
